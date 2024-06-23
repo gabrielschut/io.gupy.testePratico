@@ -11,9 +11,7 @@ import java.util.Locale;
 public class Funcionario extends Pessoa implements Comparable<Funcionario> {
 
     private BigDecimal salario;
-    private String funcao;
-
-    public Funcionario(){}
+    private final String funcao;
 
     public Funcionario(String nome, LocalDate nascimento, String funcao, BigDecimal salario) {
         super(nome, nascimento);
@@ -33,13 +31,9 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
         return funcao;
     }
 
-    private void setFuncao(String funcao) {
-        this.funcao = funcao;
-    }
-
     public void ajusteSalario(double porcentagemDeAjuste){
         BigDecimal porcentagem = BigDecimal.valueOf(1+(porcentagemDeAjuste/100));
-        setSalario(this.salario.multiply(porcentagem));
+        setSalario(this.salario.multiply(porcentagem).setScale(2, RoundingMode.HALF_UP));
     }
 
     @Override
@@ -48,10 +42,10 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
         return String.format(
                 """
-                    Nome: %s,
-                    Data de Nascimento: %s,
-                    Salário: R$ %s,
-                    Função: %s,
+                Nome: %s,
+                Data de Nascimento: %s,
+                Salário: R$ %s,
+                Função: %s,
                 """,
                 getNome(),
                 getNascimento().format(dateTimeFormatter),
@@ -60,12 +54,11 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
     }
 
     public String ToStringIdadeNome(){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         return String.format(
             """
-                Nome: %s,
-                Idade: %s
+            Nome: %s,
+            Idade: %s
             """,
                 getNome(),
                 ChronoUnit.YEARS.between(getNascimento(), LocalDate.now()));
@@ -86,7 +79,6 @@ public class Funcionario extends Pessoa implements Comparable<Funcionario> {
         }
         return compare;
     }
-
 
     public BigDecimal totalDeSlariosMinimos(){
         System.out.println(getNome());

@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Administrativo {
 
-    public static void  aumentoSalarial(Funcionario funcionario, double porcentagemAumento){
+    public static void aumentarSalarioEmPorcentagem(Funcionario funcionario, double porcentagemAumento){
         funcionario.ajusteSalario(porcentagemAumento);
     }
 
-    public static BigDecimal totalSlarioDosFuncionários(List<Funcionario> funcionarioList){
+    public static BigDecimal totalSlarioDosFuncionarios(List<Funcionario> funcionarioList){
         BigDecimal total = BigDecimal.ZERO;
         for(Funcionario funcionario: funcionarioList){
             BigDecimal salarioFuncionario = funcionario.getSalario();

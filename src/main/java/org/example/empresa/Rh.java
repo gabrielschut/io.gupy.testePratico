@@ -42,6 +42,7 @@ public class Rh {
 
     public static void todosOsFuncionariosEmOrdemAlfabetica(List<Funcionario> funcionarioList){
         Collections.sort(funcionarioList);
+        System.out.println("Funcionários em ordem alfabética");
         for(Funcionario funcionario: funcionarioList){
             System.out.println(funcionario);
         }

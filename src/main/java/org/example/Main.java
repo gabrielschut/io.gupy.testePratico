@@ -14,6 +14,38 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        List<Funcionario> funcionarioList = criaListaDeFuncionarios();
+        funcionarioList = funcionarioList.stream().filter(funcionario -> !funcionario.getNome().equals("João")).collect(Collectors.toList());
+
+        System.out.println("Listagem dos funcionários");
+        funcionarioList.forEach(System.out::println);
+        for(Funcionario funcionario: funcionarioList)
+            Administrativo.aumentarSalarioEmPorcentagem(funcionario, 10);
+
+        System.out.println("Os funcionários receberam 10% de aumento de salário!");
+        Map<String, List<Funcionario>> mapFuncionarios = Rh.geraMapDasFuncoes(funcionarioList);
+        System.out.println(" ");
+        impreTodosGruposDeFuncionarios(mapFuncionarios);
+        Rh.aniversariantesOutubroEDezembro(funcionarioList);
+        Rh.imprimeFuncionarioMaisVelho(funcionarioList);
+        Rh.todosOsFuncionariosEmOrdemAlfabetica(funcionarioList);
+        System.out.println("R$ " + Administrativo.totalSlarioDosFuncionarios(funcionarioList));
+        System.out.println("Número de salários mínimos por funcionário ");
+        funcionarioList.forEach(funcionario -> System.out.println(funcionario.totalDeSlariosMinimos()));
+    }
+
+    private static void impreTodosGruposDeFuncionarios(Map<String, List<Funcionario>> mapFuncionarios) {
+        System.out.println("Listagem dos funcionários agrupados por função");
+        imprimeFuncionariosPorFuncao("Contador", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Coordenador", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Diretor", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Eletricista", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Gerente", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Operador", mapFuncionarios);
+        imprimeFuncionariosPorFuncao("Recepcionista", mapFuncionarios);
+    }
+
+    private static List<Funcionario> criaListaDeFuncionarios() {
         List<Funcionario> funcionarioList = new ArrayList<>();
         funcionarioList.add(new Funcionario("Maria", LocalDate.of(2000, 10, 18),
                  "Operador", BigDecimal.valueOf(2009.44)));
@@ -35,31 +67,7 @@ public class Main {
                 "Eletricista", BigDecimal.valueOf(1606.85)));
         funcionarioList.add(new Funcionario("Helena", LocalDate.of(1996, 9,2),
                 "Gerente", BigDecimal.valueOf(2799.93)));
-
-        funcionarioList = funcionarioList.stream().filter(funcionario -> !funcionario.getNome().equals("João")).collect(Collectors.toList());
-        System.out.println("Listagem dos funcionários");
-        funcionarioList.forEach(System.out::println);
-        for(Funcionario funcionario: funcionarioList){
-            Administrativo.aumentoSalarial(funcionario, 10);
-        }
-        System.out.println("Os funcionários receberam 10% de aumento de salário!");
-        Map<String, List<Funcionario>> mapFuncionarios = Rh.geraMapDasFuncoes(funcionarioList);
-        imprimeFuncionariosPorFuncao("Operador", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Coordenador", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Diretor", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Recepcionista", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Contador", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Gerente", mapFuncionarios);
-        imprimeFuncionariosPorFuncao("Eletricista", mapFuncionarios);
-        Rh.aniversariantesOutubroEDezembro(funcionarioList);
-        Rh.imprimeFuncionarioMaisVelho(funcionarioList);
-        System.out.println("Listagem ordenada alfabeticamente dos funcionários");
-        Rh.todosOsFuncionariosEmOrdemAlfabetica(funcionarioList);
-        System.out.println(" ");
-        System.out.println("R$ " + Administrativo.totalSlarioDosFuncionários(funcionarioList));
-        System.out.println(" ");
-        System.out.println("Número de salários mínimos por funcionário ");
-        funcionarioList.forEach(funcionario -> System.out.println(funcionario.totalDeSlariosMinimos()));
+        return funcionarioList;
     }
 
     public static void imprimeFuncionariosPorFuncao(String funcao, Map<String, List<Funcionario>> map){
